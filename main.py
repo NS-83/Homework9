@@ -20,7 +20,6 @@ def print_players_cards(players_list):
         v.players_card.print_players_card()
 
 
-
 def number_of_players_input(type_of_player_string):
     correct_input = False
     while not correct_input:
@@ -73,7 +72,7 @@ class ComputerPlayer:
         #По множеству поиск быстрее, поэтому храним два свойства класса, в одном ищем, в другом вычеркиваем
         if number in self.players_card.numbers_set:
             self.players_card.mark_card_number(number)
-        return True
+            return True
 
 
 class HumanPlayer(ComputerPlayer):
@@ -97,41 +96,42 @@ class HumanPlayer(ComputerPlayer):
             return True
 
 
-number_of_computer_players = 0
-number_of_human_players = 0
-while not number_of_computer_players + number_of_human_players:
-    number_of_computer_players = number_of_players_input('компьютерных игроков')
-    number_of_human_players = number_of_players_input('игроков-людей')
-list_of_players = {f'Компьютер {str(i + 1)}': ComputerPlayer() for i in range(number_of_computer_players)}
-for i in range(number_of_human_players):
-    human_player_name = input('Введите имя игрока: ')
-    list_of_players[human_player_name] = HumanPlayer()
-game_sack = random.sample([i + 1 for i in range(AMOUNT_OF_GAME_NUMBERS)], AMOUNT_OF_GAME_NUMBERS)
-for number_from_sack in game_sack:
-    print_players_cards(list_of_players)
-    print(f'Выпал номер {str(number_from_sack)}')
-    winners = []
-    losers = []
-    for k, v in list_of_players.items():
-        check_result = v.number_check(number_from_sack, k)
-        if not check_result:
-            losers.append(k)
-        if v.players_card.all_numbers_marked():
-            winners.append(k)
-    if losers:
-        for k in losers:
-            if len(list_of_players) == 1:
-                print('Победителя нет!')
-                break
-            else:
-                del list_of_players[k]
-    if winners:
-        print('Победители: ', ','.join(winners))
-        break
-    if len(list_of_players) == 1:
-        for k in list_of_players.keys():
-            print('Победители: ', k,)
-        break
+if __name__ == '__main__':
+    number_of_computer_players = 0
+    number_of_human_players = 0
+    while not number_of_computer_players + number_of_human_players:
+        number_of_computer_players = number_of_players_input('компьютерных игроков')
+        number_of_human_players = number_of_players_input('игроков-людей')
+    list_of_players = {f'Компьютер {str(i + 1)}': ComputerPlayer() for i in range(number_of_computer_players)}
+    for i in range(number_of_human_players):
+        human_player_name = input('Введите имя игрока: ')
+        list_of_players[human_player_name] = HumanPlayer()
+    game_sack = random.sample([i + 1 for i in range(AMOUNT_OF_GAME_NUMBERS)], AMOUNT_OF_GAME_NUMBERS)
+    for number_from_sack in game_sack:
+        print_players_cards(list_of_players)
+        print(f'Выпал номер {str(number_from_sack)}')
+        winners = []
+        losers = []
+        for k, v in list_of_players.items():
+            check_result = v.number_check(number_from_sack, k)
+            if not check_result:
+                losers.append(k)
+            if v.players_card.all_numbers_marked():
+                winners.append(k)
+        if losers:
+            for k in losers:
+                if len(list_of_players) == 1:
+                    print('Победителя нет!')
+                    break
+                else:
+                    del list_of_players[k]
+        if winners:
+            print('Победители: ', ','.join(winners))
+            break
+        if len(list_of_players) == 1:
+            for k in list_of_players.keys():
+                print('Победители: ', k,)
+            break
 
 
 
