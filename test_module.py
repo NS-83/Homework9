@@ -49,5 +49,5 @@ class TestComputerPlayer:
                 break
 
     def test_number_check(self):
-        assert self.player.number_check(self.number, '')
-        assert not self.player.number_check(self.wrong_number, '')
+        assert  self.player.number_check(self.number, '')
+        assert self.player.number_check(self.wrong_number, '')

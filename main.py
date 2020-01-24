@@ -72,7 +72,7 @@ class ComputerPlayer:
         #По множеству поиск быстрее, поэтому храним два свойства класса, в одном ищем, в другом вычеркиваем
         if number in self.players_card.numbers_set:
             self.players_card.mark_card_number(number)
-            return True
+        return True
 
 
 class HumanPlayer(ComputerPlayer):
