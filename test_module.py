@@ -41,13 +41,21 @@ class TestComputerPlayer:
 
     def setup(self):
         self.player = ComputerPlayer()
-        self.number = get_first_card_number(self.player.players_card.numbers_set)
+        number = get_first_card_number(self.player.players_card.numbers_set)
+        self.number = number
+        self.number_str = str(number)
+        self.number_index = self.player.players_card.card_numbers.index(self.number_str )
         for i in range(90):
             number = i + 1
             if number not in self.player.players_card.numbers_set:
                 self.wrong_number = number
+                self.wrong_number_str = str(number)
                 break
 
     def test_number_check(self):
-        assert  self.player.number_check(self.number, '')
-        assert self.player.number_check(self.wrong_number, '')
+        wrong_number_marked = False
+        for card_cell in self.player.players_card.card_numbers:
+            wrong_number_marked = card_cell == NUMBER_IS_CHECKED
+        assert not wrong_number_marked
+        self.player.number_check(self.number, '')
+        assert self.player.players_card.card_numbers[self.number_index] == NUMBER_IS_CHECKED
