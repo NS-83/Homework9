@@ -36,6 +36,22 @@ class TestPlayersCard:
             self.players_card.mark_card_number(number)
         assert self.players_card.all_numbers_marked()
 
+    def test_str(self):
+        assert str(self.players_card) == str(self.players_card.numbers_set)
+
+    def test_eq(self):
+        new_card = PlayersCard()
+        if new_card.numbers_set == self.players_card.numbers_set:
+            assert new_card == self.players_card
+        else:
+            assert new_card != self.players_card
+
+    def test_contains(self):
+        number_in_card = get_first_card_number(self.players_card.numbers_set)
+        number_not_in_card = AMOUNT_OF_GAME_NUMBERS + 1
+        assert number_in_card in self.players_card
+        assert number_not_in_card not in self.players_card
+
 
 class TestComputerPlayer:
 
@@ -59,3 +75,13 @@ class TestComputerPlayer:
         assert not wrong_number_marked
         self.player.number_check(self.number, '')
         assert self.player.players_card.card_numbers[self.number_index] == NUMBER_IS_CHECKED
+
+    def test_str(self):
+        assert str(self.player) == str(self.player.players_card.card_numbers)
+
+    def test_eq(self):
+        new_player = ComputerPlayer()
+        if new_player.players_card.card_numbers == self.player.players_card.card_numbers:
+            assert new_player == self.player
+        else:
+            assert new_player != self.player

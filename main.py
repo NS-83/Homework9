@@ -41,13 +41,22 @@ class PlayersCard:
         for i in range(AMOUNT_OF_ROWS_IN_CARD):
             numbers_raw = card_numbers_unordered[i * AMOUNT_OF_NUMBERS_IN_RAW:(i + 1) * AMOUNT_OF_NUMBERS_IN_RAW]
             numbers_raw.sort()
-            #Не знаю зачем в карточке нужны пустые клетки, но раз в ТЗ есть - раскидаем их случайным образом
+            # Не знаю зачем в карточке нужны пустые клетки, но раз в ТЗ есть - раскидаем их случайным образом
             spaces = random.sample([i for i in range(AMOUNT_OF_NUMBERS_IN_RAW + AMOUNT_OF_BLANK_CELLS_IN_RAW)]
                                    , AMOUNT_OF_BLANK_CELLS_IN_RAW)
             for space_position in spaces:
                 numbers_raw.insert(space_position, ' ')
             self.card_numbers.extend(numbers_raw)
         self.card_numbers = list(map(lambda x: str(x), self.card_numbers))
+
+    def __str__(self):
+        return str(self.numbers_set)
+
+    def __eq__(self, other):
+        return self.numbers_set == other.numbers_set
+
+    def __contains__(self, item):
+        return item in self.numbers_set
 
     def print_players_card(self):
         for i in range(AMOUNT_OF_ROWS_IN_CARD):
@@ -68,9 +77,15 @@ class ComputerPlayer:
     def __init__(self):
         self.players_card = PlayersCard()
 
+    def __str__(self):
+        return str(self.players_card.card_numbers)
+
+    def __eq__(self, other):
+        return self.players_card.card_numbers == other.players_card.card_numbers
+
     def number_check(self, number, player_name):
-        #По множеству поиск быстрее, поэтому храним два свойства класса, в одном ищем, в другом вычеркиваем
-        if number in self.players_card.numbers_set:
+        # По множеству поиск быстрее, поэтому храним два свойства класса, в одном ищем, в другом вычеркиваем
+        if number in self.players_card:
             self.players_card.mark_card_number(number)
         return True
 
@@ -130,8 +145,5 @@ if __name__ == '__main__':
             break
         if len(list_of_players) == 1:
             for k in list_of_players.keys():
-                print('Победители: ', k,)
+                print('Победители: ', k, )
             break
-
-
-
